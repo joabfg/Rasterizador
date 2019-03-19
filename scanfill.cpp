@@ -1,38 +1,4 @@
-class color{
-    public: unsigned char pixel[3];
-};
-const int dimx = 600, dimy = 600;//Dimensão da matriz
-int i, j;      
 
-class aresta{
-    public:
-    int x0,y0,x1,y1,xMin,yMin;
-};   
- 
- aresta allArestas[20];
- aresta arestasAtivas[20];
-
-color branco = {255,255,255};
-color preto = {0,0,0}; 
-color azul = {0,0,255};
-color vermelho = {255,0,0};
-color verde = {0,255,0};
-color khaki = {240,230,140};
-
-
-float absoluto(float valor){
-  if(valor >=0 )
-    return valor;
-  else
-    return -(valor);
-}
-
-int min(int a,int b){
-  if(a >= b)
-    return b;
-  else 
-    return a;
-}
 
 void carregarArestas(Json::Value formas){
 	for (int i = 0; i < formas.size(); ++i){

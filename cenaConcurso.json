@@ -1,0 +1,29 @@
+	[
+		
+	{ "type":"polygon",
+	   "coord":{ "dx":0, "dy":0},
+	   "points":[{"x":0,"y":0},{"x":0,"y":600},{"x":300,"y":300}],
+	   "color":"branco",
+	   "fill":"azul","xfill":5,"yfill":300
+	 },
+	 { "type":"polygon",
+	   "coord":{ "dx":0, "dy":0},
+	   "points":[{"x":0,"y":600},{"x":600,"y":600},{"x":300,"y":300}],
+	   "color":"branco", "fill":"verde","xfill":300,"yfill":590
+	 },{ "type":"polygon",
+	   "coord":{ "dx":0, "dy":0},
+	   "points":[{"x":300,"y":0},{"x":600,"y":300},{"x":600,"y":0}],
+	   "color":"branco", "fill":"vermelho","xfill":450,"yfill":10
+	 }
+	 ,{ "type":"polygon",
+	   "coord":{ "dx":0, "dy":0},
+	   "points":[{"x":300,"y":300},{"x":450,"y":450},{"x":600,"y":300},{"x":450,"y":150}],
+	   "color":"branco", "fill":"khaki","xfill":450,"yfill":400
+	 }
+	 ,{ "type":"polygon",
+	   "coord":{ "dx":0, "dy":0},
+	   "points":[{"x":0,"y":0},{"x":150,"y":150},{"x":450,"y":150},{"x":300,"y":0}],
+	   "color":"branco"
+	   ,"fill":"verde","xfill":300,"yfill":10
+	 }
+	]

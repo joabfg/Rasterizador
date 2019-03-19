@@ -1,7 +1,6 @@
 //https://github.com/open-source-parsers/jsoncpp
 #include <jsoncpp/json/json.h>
 #include <jsoncpp/json/reader.h>
-#include "scanfill.cpp"
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -12,35 +11,56 @@
 using namespace std;
 
 
+#include "const.cpp"
+#include "scanfill.cpp"
+#include "fillFlood.cpp"
 
 
 
-color matriz[dimx][dimy] ;
 
-color getColorByName(string color){
+int getColorByName(string color){
   if(color == "branco")
-    return branco;
+    return BRANCO;
    if(color == "preto")
-    return preto;
+    return PRETO;
    if(color == "azul")
-    return azul;
+    return AZUL;
    if(color == "verde")
-    return verde;
+    return VERDE;
   if(color == "vermelho")
+    return VERMELHO;
+if(color == "khaki")
+    return KHAKI;
+return PRETO;
+}
+
+color getColorByiD(int color){
+  if(color == BRANCO)
+    return branco;
+   if(color == PRETO)
+    return preto;
+   if(color == AZUL)
+    return azul;
+   if(color == VERDE)
+    return verde;
+  if(color == VERMELHO)
     return vermelho;
+ if(color == KHAKI)
+    return khaki;
 return preto;
 }
 
+
 void gerarImagem(){
 
-    FILE *fp = fopen("images/linhaFill.ppm", "wb"); /* b - modo binário */
+    FILE *fp = fopen("images/imagem1.ppm", "wb"); /* b - modo binário */
 
     //Descrição do arquivo
      fprintf(fp, "P6\n%d %d\n255\n", dimx, dimy);
     // Desenha a matriz no arquivo
      for (j = dimy; j > 0; --j){
         for (i = 0; i < dimx; ++i){
-           fwrite(matriz[i][j].pixel, 1, 3, fp);//Escreve no arquivo a cor
+           fwrite(getColorByiD(matriz[i][j]).pixel, 1, 3, fp);//Escreve no arquivo a cor
        }
    }
     fclose(fp);//Salva o arquivo
@@ -51,7 +71,7 @@ void gerarImagem(){
 variáveis que descfrevem o segmento (x0,y0),(x1,y1)
 deslocamento do segmento (vx,vy)
 */
-void lineDDA( int x0, int y0, int x1, int y1, color colorForma,int vx, int vy ) {
+void lineDDA( int x0, int y0, int x1, int y1, int colorForma,int vx, int vy ) {
 	x0 +=vx;
 	y0 +=vy;
 	x1 +=vx;
@@ -76,11 +96,13 @@ void lineDDA( int x0, int y0, int x1, int y1, color colorForma,int vx, int vy ) 
     for( int i = 0; i <= step; i++ ) {
         //"Pinta o pixel com a cor informada"
        matriz[(int)x][(int)y] = colorForma;
+       matriz[(int)x+1][(int)y] = colorForma;
+       matriz[(int)x][(int)y+1] = colorForma;
         y += dy;
         x += dx;
     }  
 }
-void lineBresenham( int x0, int y0, int x1, int y1, color colorForma,int vx, int vy ){
+void lineBresenham( int x0, int y0, int x1, int y1, int colorForma,int vx, int vy ){
 
   x0 = x0+vx;
   y0 = y0+vy;
@@ -104,23 +126,43 @@ void lineBresenham( int x0, int y0, int x1, int y1, color colorForma,int vx, int
     matriz[x][y] = colorForma;
   }
 }
-void midPointCircle( int raio, int x0,int y0, color colorForma ) {
+void midPointCircle( int raio, int x0,int y0, int colorForma ) {
     int x = 0;
     int y = raio;
     int d = 1 - raio;
 
     while(y > x){
       matriz[x0+x][y0+y] = colorForma;
+      matriz[x0+x+1][y0+y] = colorForma;
+      matriz[x0+x][y0+y+1] = colorForma;
+
       matriz[x0+y][y0+x] = colorForma;
+      matriz[x0+y+1][y0+x] = colorForma;
+      matriz[x0+y][y0+x+1] = colorForma;
 
       matriz[x0-x][y0+y] = colorForma;
+      matriz[x0-x+1][y0+y] = colorForma;
+      matriz[x0-x][y0+y+1] = colorForma;
+
       matriz[x0-y][y0+x] = colorForma;
+      matriz[x0-y+1][y0+x] = colorForma;
+      matriz[x0-y][y0+x+1] = colorForma;
 
       matriz[x0-x][y0-y] = colorForma;
+      matriz[x0-x+1][y0-y] = colorForma;
+      matriz[x0-x][y0-y+1] = colorForma;
+
       matriz[x0-y][y0-x] = colorForma;
+      matriz[x0-y+1][y0-x] = colorForma;
+      matriz[x0-y][y0-x+1] = colorForma;
 
       matriz[x0+x][y0-y] = colorForma;
+      matriz[x0+x+1][y0-y] = colorForma;
+      matriz[x0+x][y0-y+1] = colorForma;
+
       matriz[x0+y][y0-x] = colorForma;
+      matriz[x0+y+1][y0-x] = colorForma;
+      matriz[x0+y][y0-x+1] = colorForma;
 
       if(d < 0){
         d = d + 2 * x + 3;
@@ -137,7 +179,7 @@ void rasterizar(Json::Value formas){
    // Monta a matriz da imagem
     for (j = 0; j < dimy; ++j){
         for (i = 0; i < dimx; ++i){ 
-            matriz[i][j] = preto;
+            matriz[i][j] = PRETO;
        }
    }
 
@@ -157,7 +199,7 @@ void rasterizar(Json::Value formas){
 		      int y1=forma["coord"]["y1"].asUInt();
 		      int dx=forma["coord"]["dx"].asUInt(); 
 		      int dy=forma["coord"]["dy"].asUInt();
-		      color cor = getColorByName(forma["color"].asString());
+		      int cor = getColorByName(forma["color"].asString());
 	          lineDDA(x0,y0,x1,y1,cor,dx,dy);
 	      }
 
@@ -169,7 +211,7 @@ void rasterizar(Json::Value formas){
           Json::Value points = forma["points"];
 		      int dx=forma["coord"]["dx"].asUInt(); 
 		      int dy=forma["coord"]["dy"].asUInt();
-		      color cor = getColorByName(forma["color"].asString());
+		      int cor = getColorByName(forma["color"].asString());
 
 		      const Json::Value& point0 = points[0];
 
@@ -196,7 +238,7 @@ void rasterizar(Json::Value formas){
           Json::Value points = forma["points"];
           int dx=forma["coord"]["dx"].asUInt(); 
           int dy=forma["coord"]["dy"].asUInt();
-          color cor = getColorByName(forma["color"].asString());
+          int cor = getColorByName(forma["color"].asString());
 
           const Json::Value& point0 = points[0];
 
@@ -214,6 +256,13 @@ void rasterizar(Json::Value formas){
           }
           lineDDA(xTemp,yTemp,point0["x"].asUInt(),point0["y"].asUInt(),cor,dx,dy);//linha para fechar o poligono
 
+          int fill = getColorByName(forma["fill"].asString());
+          int xfill=forma["xfill"].asUInt(); 
+          int yfill=forma["yfill"].asUInt();
+          // Pinta o circulo
+          if(fill > 0)
+   		 	 floodFill4(xfill, yfill, fill, PRETO);
+
         }
         /*
         DESENHANDO CIRCULOS
@@ -223,16 +272,23 @@ void rasterizar(Json::Value formas){
 	      	int dx=forma["coord"]["dx"].asUInt(); 
 		      int dy=forma["coord"]["dy"].asUInt();
 		      int raio=forma["raio"].asUInt();
-		      color cor = getColorByName(forma["color"].asString());
+		      int cor = getColorByName(forma["color"].asString());
 	     	  midPointCircle(raio,dx,dy,cor);
+
+	     	  int fill = getColorByName(forma["fill"].asString());
+       
+	          // Pinta o circulo
+	   		  floodFill4(dx+2, dy+2, KHAKI, PRETO);
 	  	}
      
     }
 }
 
+
+
 int main(void){
 
-  std::ifstream myfile("cenaFill.json");
+  std::ifstream myfile("cenaConcurso.json");
   
  // myfile.open ("cena.json");
 
@@ -243,9 +299,10 @@ int main(void){
 
   myfile.close();
 
-
+   //Desenhas as formas lidas do arquivo de descrição de cena
    rasterizar(formas);
 
+  
    gerarImagem();
    
     return EXIT_SUCCESS;
