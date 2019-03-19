@@ -1,0 +1,12 @@
+	[{ "type":"polygon",
+	   "coord":{ "dx":150, "dy":150},
+	   "points":[{"x":0,"y":0},{"x":0,"y":200},{"x":50,"y":200},{"x":50,"y":0},{"x":100,"y":0},{"x":100,"y":200}],
+	   "color":"verde"
+	 },
+	  // circle
+	 { "type":"circle",
+	   "coord":{ "dx":200, "dy":200},
+	   "raio":200,
+	   "color":"azul"
+	 }
+	]

@@ -1,0 +1,40 @@
+	[{ "type":"line",
+	   "coord":{ "x0":20, "y0":20, "x1":400, "y1":60,"dx":0, "dy":0},
+	   "color":"azul"
+	 },{ "type":"line",
+	   "coord":{ "x0":20, "y0":20, "x1":200, "y1":400,"dx":0, "dy":0},
+	   "color":"verde"
+	 },{ "type":"line",
+	   "coord":{ "x0":200, "y0":400, "x1":400, "y1":60,"dx":0, "dy":0},
+	   "color":"vermelho"
+	 },
+	 { "type":"line",
+	   "coord":{ "x0":20, "y0":20, "x1":400, "y1":60,"dx":50, "dy":0},
+	   "color":"azul"
+	 },{ "type":"line",
+	   "coord":{ "x0":20, "y0":20, "x1":200, "y1":400,"dx":50, "dy":0},
+	   "color":"verde"
+	 },{ "type":"line",
+	   "coord":{ "x0":200, "y0":400, "x1":400, "y1":60,"dx":50, "dy":0},
+	   "color":"vermelho"
+	 }
+
+	 // Polilinhas
+	 ,{ "type":"polyLine",
+	   "coord":{ "dx":50, "dy":50},
+	   "points":[{"x":0,"y":0},{"x":0,"y":200},{"x":50,"y":200},{"x":50,"y":0},{"x":100,"y":0},{"x":100,"y":200}],
+	   "color":"vermelho"
+	 }
+
+	 ,{ "type":"polygon",
+	   "coord":{ "dx":150, "dy":150},
+	   "points":[{"x":0,"y":0},{"x":0,"y":200},{"x":50,"y":200},{"x":50,"y":0},{"x":100,"y":0},{"x":100,"y":200}],
+	   "color":"verde"
+	 },
+	  // circle
+	 { "type":"circle",
+	   "coord":{ "dx":200, "dy":200},
+	   "raio":200,
+	   "color":"azul"
+	 }
+	]

@@ -1,0 +1,62 @@
+Descritor de cena para Rasterizador 2D baseado em JSON
+
+o modelo de descrição é simples seguindo as convenções do json
+
+1º passo
+crie uma lista de objetos json 
+
+[{...},{...}]
+
+2º passo
+cada objeto deve ter seu tipo definido
+{"type":"line"}
+
+os tipos permitidos no rasterizador são:
+"line","polyline","circle","polygon".
+
+3º passo 
+defina a cor de cada objeto
+{"color":"vermelho"}
+as cores permitidas são:
+"branco","preto","verde","vermelho","azul"
+
+4º passo
+para cada objeto defina suas coordenadas iniciando pela translação em x e y
+{"coord":{"dx":0,"dy":0}}
+
+para as linhas adicione as coordenadas x0,x1 e y0 e y1
+{"coord":{ "x0":200, "y0":400, "x1":400, "y1":60,"dx":0, "dy":0}}
+
+para polilinhas e poligonos adicione os pontos que formam a polilinha:
+{"points":[{"x":0,"y":0},{"x":0,"y":200},{"x":50,"y":200},{"x":50,"y":0},{"x":100,"y":0},{"x":100,"y":200}]}
+
+para circulo adicione o raio
+{"raio":50}
+
+ex:
+[
+	//Linha
+	{ "type":"line",
+	   "coord":{ "x0":200, "y0":400, "x1":400, "y1":60,"dx":50, "dy":0},
+	   "color":"vermelho"
+	 }
+
+	 // Polilinhas
+	 ,{ "type":"polyLine",
+	   "coord":{ "dx":50, "dy":50},
+	   "points":[{"x":0,"y":0},{"x":0,"y":200},{"x":50,"y":200},{"x":50,"y":0},{"x":100,"y":0},{"x":100,"y":200}],
+	   "color":"vermelho"
+	 }
+	 //Poligono
+	 ,{ "type":"polygon",
+	   "coord":{ "dx":150, "dy":150},
+	   "points":[{"x":0,"y":0},{"x":0,"y":200},{"x":50,"y":200},{"x":50,"y":0},{"x":100,"y":0},{"x":100,"y":200}],
+	   "color":"verde"
+	 },
+	  // circle
+	 { "type":"circle",
+	   "coord":{ "dx":200, "dy":200},
+	   "raio":200,
+	   "color":"azul"
+ }
+]
